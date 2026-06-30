@@ -28,5 +28,6 @@
 #define SPLIT_TRANSPORT_MIRROR             // If LED_MATRIX_KEYPRESSES or LED_MATRIX_KEYRELEASES is enabled, you also will want to enable SPLIT_TRANSPORT_MIRROR
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 100  // limits maximum brightness of LEDs (max 255). Higher may cause the controller to crash.
 
+#undef MANUFACTURER
 #define MANUFACTURER "N1ret"
 #define PRODUCT "Sofle Choc"
