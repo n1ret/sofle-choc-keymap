@@ -31,3 +31,6 @@
 #undef MANUFACTURER
 #define MANUFACTURER "N1ret"
 #define PRODUCT "Sofle Choc"
+
+#define ONESHOT_TAP_TOGGLE 2
+#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD

@@ -19,7 +19,6 @@ enum layer_names {
     _QUERTY,
     _GAMING,
     _ONESHOTS,
-    _PERMANENT,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -61,48 +60,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_LCTL , KC_HOME , KC_TAB , KC_LALT , KC_ENT  ,     KC_LCMD , KC_LBRC , KC_RBRC , KC_END  , OSL(_ONESHOTS)
 ),
 
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬─────────────┬─────────────┬────────────────┬──────┬─────┐
-//    │     │     │     │     │     │     │               │      │             │             │                │      │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼────────────────┼──────┼─────┤
-//    │ f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │                │      │ del │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼────────────────┼──────┼─────┤
-//    │ f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │      rght      │ pgup │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼────────────────┼──────┼─────┤
-//    │     │     │     │     │     │     │     │   │     │      │             │             │                │ pgdn │     │
-//    └─────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼────────────────┼──────┴─────┘
-//                │     │     │     │     │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │ TG(_PERMANENT) │
-//                └─────┴─────┴─────┴─────┴─────┘   └─────┴──────┴─────────────┴─────────────┴────────────────┘
+//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────┐
+//    │     │     │     │     │     │     │               │      │             │             │      │      │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────┤
+//    │ f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │      │      │ del │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────┤
+//    │ f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │ rght │ pgup │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────┤
+//    │     │     │     │     │     │     │     │   │     │      │             │             │      │ pgdn │     │
+//    └─────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────┘
+//                │     │     │     │     │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
+//                └─────┴─────┴─────┴─────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
 [_ONESHOTS] = LAYOUT(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS        , KC_TRNS , KC_TRNS,
-  KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS        , KC_TRNS , KC_DEL ,
-  KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT        , KC_PGUP , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS        , KC_PGDN , KC_TRNS,
-                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , DF(_QUERTY) , DF(_GAMING) , TG(_PERMANENT)
-),
-
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬────────────────┬─────┬─────┐
-//    │     │     │     │     │     │     │               │     │     │     │                │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼────────────────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │                │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼────────────────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │                │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼────────────────┼─────┼─────┤
-//    │     │     │     │     │     │     │     │   │     │     │     │     │                │     │     │
-//    └─────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼─────┼─────┼─────┼────────────────┼─────┴─────┘
-//                │     │     │     │     │     │   │     │     │     │     │ TG(_PERMANENT) │
-//                └─────┴─────┴─────┴─────┴─────┘   └─────┴─────┴─────┴─────┴────────────────┘
-[_PERMANENT] = LAYOUT(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS        , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS        , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS        , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS        , KC_TRNS , KC_TRNS,
-                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , TG(_PERMANENT)
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_DEL ,
+  KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT , KC_PGUP , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_PGDN , KC_TRNS,
+                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , DF(_QUERTY) , DF(_GAMING) , KC_TRNS
 )
 };
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
