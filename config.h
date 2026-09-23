@@ -33,4 +33,5 @@
 #define PRODUCT "Sofle Choc"
 
 #define ONESHOT_TAP_TOGGLE 2
+#define ONESHOT_TIMEOUT 1
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
