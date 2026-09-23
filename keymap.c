@@ -63,19 +63,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────────┐
 //    │     │     │     │     │     │     │               │      │             │             │      │      │         │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │ f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │      │      │   del   │
+//    │ f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │      │ pgup │   del   │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │ f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │ rght │ pgup │         │
+//    │ f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │ rght │ pgdn │         │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │     │     │     │     │     │     │     │   │     │      │             │             │      │ pgdn │ QK_LOCK │
+//    │     │     │     │     │     │     │     │   │     │      │             │             │      │  \   │ QK_LOCK │
 //    └─────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────────┘
 //                │     │     │     │     │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
 //                └─────┴─────┴─────┴─────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
 [_ONESHOTS] = LAYOUT(
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_DEL ,
-  KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT , KC_PGUP , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_PGDN , QK_LOCK,
+  KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_PGUP , KC_DEL ,
+  KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT , KC_PGDN , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_BSLS , QK_LOCK,
                       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , DF(_QUERTY) , DF(_GAMING) , KC_TRNS
 )
 };
