@@ -13,14 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <stdio.h>
 #include QMK_KEYBOARD_H
 
 enum layer_names {
-    _QUERTY,
-    _GAMING,
-    _ONESHOTS,
+  _QUERTY,
+  _GAMING,
+  _ONESHOTS,
 };
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌──────┬───┬──────┬──────┬──────┬──────┐                 ┌────────────────┬───┬───┬─────┬───┬──────┐
 //    │  `   │ 1 │  2   │  3   │  4   │  5   │                 │       6        │ 7 │ 8 │  9  │ 0 │  -   │
@@ -41,51 +43,71 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_LALT , KC_HOME , KC_LCMD , KC_LCTL , KC_ENT  ,     KC_SPC  , OSL(_ONESHOTS) , KC_LBRC , KC_RBRC , KC_END
 ),
 
-//    ┌──────┬───┬──────┬──────┬─────┬──────┐                 ┌────────────────┬───┬───┬─────┬───┬──────┐
-//    │  `   │ 1 │  2   │  3   │  4  │  5   │                 │       6        │ 7 │ 8 │  9  │ 0 │  -   │
-//    ├──────┼───┼──────┼──────┼─────┼──────┤                 ├────────────────┼───┼───┼─────┼───┼──────┤
-//    │ esc  │ q │  w   │  e   │  r  │  t   │                 │       y        │ u │ i │  o  │ p │ bspc │
-//    ├──────┼───┼──────┼──────┼─────┼──────┤                 ├────────────────┼───┼───┼─────┼───┼──────┤
-//    │ tab  │ a │  s   │  d   │  f  │  g   │                 │       h        │ j │ k │  l  │ ; │  '   │
-//    ├──────┼───┼──────┼──────┼─────┼──────┼──────┐   ┌──────┼────────────────┼───┼───┼─────┼───┼──────┤
-//    │ lctl │ z │  x   │  c   │  v  │  b   │ mute │   │ mply │       n        │ m │ , │  .  │ / │  =   │
-//    └──────┴───┼──────┼──────┼─────┼──────┼──────┤   ├──────┼────────────────┼───┼───┼─────┼───┴──────┘
-//               │ lalt │ lsft │ spc │ home │ ent  │   │ lgui │ OSL(_ONESHOTS) │ [ │ ] │ end │
-//               └──────┴──────┴─────┴──────┴──────┘   └──────┴────────────────┴───┴───┴─────┘
+//    ┌──────┬───┬──────┬─────┬─────┬──────┐                 ┌────────────────┬───┬───┬─────┬───┬──────┐
+//    │  `   │ 1 │  2   │  3  │  4  │  5   │                 │       6        │ 7 │ 8 │  9  │ 0 │  -   │
+//    ├──────┼───┼──────┼─────┼─────┼──────┤                 ├────────────────┼───┼───┼─────┼───┼──────┤
+//    │ esc  │ q │  w   │  e  │  r  │  t   │                 │       y        │ u │ i │  o  │ p │ bspc │
+//    ├──────┼───┼──────┼─────┼─────┼──────┤                 ├────────────────┼───┼───┼─────┼───┼──────┤
+//    │ lsft │ a │  s   │  d  │  f  │  g   │                 │       h        │ j │ k │  l  │ ; │  '   │
+//    ├──────┼───┼──────┼─────┼─────┼──────┼──────┐   ┌──────┼────────────────┼───┼───┼─────┼───┼──────┤
+//    │ lctl │ z │  x   │  c  │  v  │  b   │ mute │   │ mply │       n        │ m │ , │  .  │ / │  =   │
+//    └──────┴───┼──────┼─────┼─────┼──────┼──────┤   ├──────┼────────────────┼───┼───┼─────┼───┴──────┘
+//               │ lalt │ tab │ spc │ home │ ent  │   │ lgui │ OSL(_ONESHOTS) │ [ │ ] │ end │
+//               └──────┴─────┴─────┴──────┴──────┘   └──────┴────────────────┴───┴───┴─────┘
 [_GAMING] = LAYOUT(
-  KC_GRV  , KC_1 , KC_2    , KC_3    , KC_4   , KC_5    ,                         KC_6           , KC_7    , KC_8    , KC_9   , KC_0    , KC_MINS,
-  KC_ESC  , KC_Q , KC_W    , KC_E    , KC_R   , KC_T    ,                         KC_Y           , KC_U    , KC_I    , KC_O   , KC_P    , KC_BSPC,
-  KC_TAB  , KC_A , KC_S    , KC_D    , KC_F   , KC_G    ,                         KC_H           , KC_J    , KC_K    , KC_L   , KC_SCLN , KC_QUOT,
-  KC_LCTL , KC_Z , KC_X    , KC_C    , KC_V   , KC_B    , KC_MUTE ,     KC_MPLY , KC_N           , KC_M    , KC_COMM , KC_DOT , KC_SLSH , KC_EQL ,
-                   KC_LALT , KC_LSFT , KC_SPC , KC_HOME , KC_ENT  ,     KC_LCMD , OSL(_ONESHOTS) , KC_LBRC , KC_RBRC , KC_END
+  KC_GRV  , KC_1 , KC_2    , KC_3   , KC_4   , KC_5    ,                         KC_6           , KC_7    , KC_8    , KC_9   , KC_0    , KC_MINS,
+  KC_ESC  , KC_Q , KC_W    , KC_E   , KC_R   , KC_T    ,                         KC_Y           , KC_U    , KC_I    , KC_O   , KC_P    , KC_BSPC,
+  KC_LSFT , KC_A , KC_S    , KC_D   , KC_F   , KC_G    ,                         KC_H           , KC_J    , KC_K    , KC_L   , KC_SCLN , KC_QUOT,
+  KC_LCTL , KC_Z , KC_X    , KC_C   , KC_V   , KC_B    , KC_MUTE ,     KC_MPLY , KC_N           , KC_M    , KC_COMM , KC_DOT , KC_SLSH , KC_EQL ,
+                   KC_LALT , KC_TAB , KC_SPC , KC_HOME , KC_ENT  ,     KC_LCMD , OSL(_ONESHOTS) , KC_LBRC , KC_RBRC , KC_END
 ),
 
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────────┐
-//    │     │     │     │     │     │     │               │      │             │             │      │      │         │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │ f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │      │ pgup │   del   │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │ f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │ rght │ pgdn │         │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │     │     │     │     │     │     │     │   │     │      │             │             │      │  \   │ QK_LOCK │
-//    └─────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────────┘
-//                │     │     │     │     │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
-//                └─────┴─────┴─────┴─────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
+//    ┌──────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────────┐
+//    │ calc │     │     │     │     │     │               │      │             │             │      │      │         │
+//    ├──────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │  f1  │ f2  │ f3  │ f4  │ f5  │ f6  │               │      │             │             │      │ pgup │   del   │
+//    ├──────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │  f7  │ f8  │ f9  │ f10 │ f11 │ f12 │               │ left │    down     │     up      │ rght │ pgdn │         │
+//    ├──────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │      │     │     │     │     │     │     │   │     │      │             │             │      │  \   │ QK_LOCK │
+//    └──────┴─────┼─────┼─────┼─────┼─────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────────┘
+//                 │     │     │     │     │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
+//                 └─────┴─────┴─────┴─────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
 [_ONESHOTS] = LAYOUT(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_CALC , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_PGUP , KC_DEL ,
   KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT , KC_PGDN , KC_TRNS,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_BSLS , QK_LOCK,
                       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , DF(_QUERTY) , DF(_GAMING) , KC_TRNS
 )
 };
+// clang-format on
 
-#if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_QUERTY] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MFFD, KC_MRWD) },
-    [_GAMING] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MFFD, KC_MRWD) },
-    [_ONESHOTS] = { ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_CCW_CW(KC_MNXT, KC_MPRV) },
+    [_QUERTY] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MFFD, KC_MRWD)},
+    [_GAMING] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MFFD, KC_MRWD)},
+    [_ONESHOTS] = {ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_CCW_CW(KC_MNXT, KC_MPRV)},
 };
-#endif
+
+// Custom keys processing
+
+static uint32_t shift_timer;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case KC_LSFT:
+
+    if (record->event.pressed && !layer_state_is(_GAMING)) {
+      if (timer_elapsed32(shift_timer) < TAPPING_TERM) {
+        caps_word_on();
+        return false;
+      }
+      shift_timer = timer_read32();
+    }
+  default:
+    return true;
+  }
+}
 
 // nvim: nodiagnostics
+// vim: shiftwidth=2:
