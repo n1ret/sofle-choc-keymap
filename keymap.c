@@ -62,19 +62,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_LALT , KC_TAB , KC_SPC , KC_HOME , KC_ENT  ,     KC_LCMD , OSL(_ONESHOTS) , KC_LBRC , KC_RBRC , KC_END
 ),
 
-//    ┌──────┬─────────┬─────┬─────┬─────────┬─────────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────────┐
-//    │ calc │ RM_TOGG │     │     │ RM_VALD │ RM_VALU │               │      │             │             │      │      │         │
-//    ├──────┼─────────┼─────┼─────┼─────────┼─────────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │  f1  │   f2    │ f3  │ f4  │   f5    │   f6    │               │      │             │             │      │ pgup │   del   │
-//    ├──────┼─────────┼─────┼─────┼─────────┼─────────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │  f7  │   f8    │ f9  │ f10 │   f11   │   f12   │               │ left │    down     │     up      │ rght │ pgdn │         │
-//    ├──────┼─────────┼─────┼─────┼─────────┼─────────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
-//    │      │         │     │     │         │         │     │   │     │      │             │             │      │  \   │ QK_LOCK │
-//    └──────┴─────────┼─────┼─────┼─────────┼─────────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────────┘
-//                     │     │     │         │         │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
-//                     └─────┴─────┴─────────┴─────────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
+//    ┌──────┬─────────┬─────────┬─────────┬─────────┬─────────┐               ┌──────┬─────────────┬─────────────┬──────┬──────┬─────────┐
+//    │ calc │ RM_TOGG │ RM_PREV │ RM_NEXT │ RM_VALD │ RM_VALU │               │      │             │             │      │      │         │
+//    ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │  f1  │   f2    │   f3    │   f4    │   f5    │   f6    │               │      │             │             │      │ pgup │   del   │
+//    ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │  f7  │   f8    │   f9    │   f10   │   f11   │   f12   │               │ left │    down     │     up      │ rght │ pgdn │         │
+//    ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐   ┌─────┼──────┼─────────────┼─────────────┼──────┼──────┼─────────┤
+//    │      │         │         │         │         │         │     │   │     │      │             │             │      │  \   │ QK_LOCK │
+//    └──────┴─────────┼─────────┼─────────┼─────────┼─────────┼─────┤   ├─────┼──────┼─────────────┼─────────────┼──────┼──────┴─────────┘
+//                     │         │         │         │         │     │   │     │      │ DF(_QUERTY) │ DF(_GAMING) │      │
+//                     └─────────┴─────────┴─────────┴─────────┴─────┘   └─────┴──────┴─────────────┴─────────────┴──────┘
 [_ONESHOTS] = LAYOUT(
-  KC_CALC , RM_TOGG , KC_TRNS , KC_TRNS , RM_VALD , RM_VALU ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_CALC , RM_TOGG , RM_PREV , RM_NEXT , RM_VALD , RM_VALU ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_PGUP , KC_DEL ,
   KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP       , KC_RGHT , KC_PGDN , KC_TRNS,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS     , KC_TRNS , KC_BSLS , QK_LOCK,
@@ -188,6 +188,9 @@ static bool is_locked(uint16_t kc) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+  if (rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_STATUS_LAYER)
+    return true;
+
   const uint8_t dl = get_highest_layer(default_layer_state);
   const bool gaming = (dl == _GAMING);
   const bool os_on = layer_state_is(_ONESHOTS) || led_state.os_down;
@@ -201,8 +204,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
     if (age < FLASH_MS)
       set_hsv(i, H_PURPLE, 255 - (uint32_t)age * 255 / FLASH_MS);
-    else
-      set_hsv(i, 0, 0);
   }
 
   for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
