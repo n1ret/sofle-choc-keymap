@@ -12,6 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "color.h"
+#include <stdint.h>
 #include QMK_KEYBOARD_H
 #include "transactions.h"
 
@@ -167,23 +169,92 @@ void housekeeping_task_user(void) {
     led_state_sent = s;
 }
 
-#define H_RED 0
-#define H_PURPLE 191
-#define FLASH_MS 800
+#define DEFAULT_COLOR RGB_WHITE
+#define DEFAULT_ACCENT RGB_PURPLE
+#define DEFAULT_LOCK RGB_RED
+#define GAMING_COLOR RGB_BLACK
+#define GAMING_ACCENT RGB_PURPLE
+#define GAMING_LOCK RGB_PURPLE
+#define GAMING_WASD RGB_RED
 
-static void set_hsv(uint8_t i, uint8_t h, uint8_t s) {
-  RGB c = hsv_to_rgb((HSV){h, s, rgb_matrix_get_val()});
-  rgb_matrix_set_color(i, c.r, c.g, c.b);
+#define FLASH_MS 800
+#define FLASH_SPEED (65535u / FLASH_MS)
+#define FLASH_MAX (65535u / FLASH_SPEED)
+
+static void set_rgb(uint8_t i, uint8_t r, uint8_t g, uint8_t b) {
+  const uint16_t v = rgb_matrix_get_val() + 1u;
+  rgb_matrix_set_color(i, (r * v) >> 8, (g * v) >> 8, (b * v) >> 8);
+}
+
+// t = 0 gives a, t = 255 gives b exactly
+static uint8_t mix8(uint8_t a, uint8_t b, uint8_t t) {
+  return b >= a ? a + (((uint16_t)(b - a) * (t + 1u)) >> 8) : a - (((uint16_t)(a - b) * (t + 1u)) >> 8);
+}
+
+static void set_mix(uint8_t i, uint8_t r1, uint8_t g1, uint8_t b1, uint8_t r2, uint8_t g2, uint8_t b2, uint8_t t) {
+  set_rgb(i, mix8(r1, r2, t), mix8(g1, g2, t), mix8(b1, b2, t));
+}
+
+static uint8_t flash_amount(uint8_t led) {
+  uint16_t tick = FLASH_MAX;
+  for (uint8_t j = 0; j < g_last_hit_tracker.count; j++)
+    if (g_last_hit_tracker.index[j] == led && g_last_hit_tracker.tick[j] < tick)
+      tick = g_last_hit_tracker.tick[j];
+
+  const uint8_t offset = (uint16_t)(tick * FLASH_SPEED) >> 8;
+  const uint8_t sq = ((uint16_t)offset * (offset + 1u)) >> 8;
+  const uint8_t cu = ((uint16_t)sq * (offset + 1u)) >> 8;
+  return 255 - cu;
 }
 
 static bool is_locked(uint16_t kc) {
   if (kc == 0)
     return false;
-
   for (uint8_t i = 0; i < MAX_LOCKED; i++)
     if (led_state.locked[i] == kc)
       return true;
   return false;
+}
+
+static void paint_base(uint8_t led_min, uint8_t led_max, bool gaming) {
+  for (uint8_t i = led_min; i < led_max; i++) {
+    if (gaming) {
+      const uint8_t amt = flash_amount(i);
+      if (amt)
+        set_mix(i, GAMING_COLOR, GAMING_ACCENT, amt);
+      else
+        set_rgb(i, GAMING_COLOR);
+    } else {
+      set_rgb(i, DEFAULT_COLOR);
+    }
+  }
+}
+
+static void paint_keys(uint8_t led_min, uint8_t led_max, uint8_t dl, bool gaming) {
+  const bool os_on = layer_state_is(_ONESHOTS) || led_state.os_down;
+
+  for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+    for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+      uint8_t led;
+      if (!rgb_matrix_map_row_column_to_led(row, col, &led) || led < led_min || led >= led_max)
+        continue;
+      const uint16_t kc = keymap_key_to_keycode(dl, (keypos_t){.row = row, .col = col});
+
+      if (is_locked(kc)) {
+        if (gaming)
+          set_rgb(led, GAMING_LOCK);
+        else
+          set_rgb(led, DEFAULT_LOCK);
+      } else if ((os_on && kc == OSL(_ONESHOTS)) || (led_state.caps && kc == KC_LSFT)) {
+        if (gaming)
+          set_rgb(led, GAMING_ACCENT);
+        else
+          set_rgb(led, DEFAULT_ACCENT);
+      } else if (gaming && (kc == KC_W || kc == KC_A || kc == KC_S || kc == KC_D)) {
+        set_rgb(led, GAMING_WASD);
+      }
+    }
+  }
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
@@ -192,35 +263,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
   const uint8_t dl = get_highest_layer(default_layer_state);
   const bool gaming = (dl == _GAMING);
-  const bool os_on = layer_state_is(_ONESHOTS) || led_state.os_down;
 
-  if (gaming) {
-    for (uint8_t i = led_min; i < led_max; i++) {
-      uint16_t age = UINT16_MAX;
-      for (uint8_t j = 0; j < g_last_hit_tracker.count; j++)
-        if (g_last_hit_tracker.index[j] == i && g_last_hit_tracker.tick[j] < age)
-          age = g_last_hit_tracker.tick[j];
-
-      if (age < FLASH_MS)
-        set_hsv(i, H_PURPLE, 255 - (uint32_t)age * 255 / FLASH_MS);
-    }
-  }
-
-  for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-    for (uint8_t col = 0; col < MATRIX_COLS; col++) {
-      uint8_t led;
-      if (!rgb_matrix_map_row_column_to_led(row, col, &led) || led < led_min || led >= led_max)
-        continue;
-      uint16_t kc = keymap_key_to_keycode(dl, (keypos_t){.row = row, .col = col});
-
-      if (is_locked(kc))
-        set_hsv(led, gaming ? H_PURPLE : H_RED, 255);
-      else if ((os_on && kc == OSL(_ONESHOTS)) || (!gaming && led_state.caps && kc == KC_LSFT))
-        set_hsv(led, H_PURPLE, 255);
-      else if (gaming && (kc == KC_W || kc == KC_A || kc == KC_S || kc == KC_D))
-        set_hsv(led, H_RED, 255);
-    }
-  }
+  paint_base(led_min, led_max, gaming);
+  paint_keys(led_min, led_max, dl, gaming);
   return false;
 }
 
