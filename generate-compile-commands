@@ -1,0 +1,3 @@
+#!/bin/sh
+
+bear -- qmk compile -kb sofle_choc -km n1ret

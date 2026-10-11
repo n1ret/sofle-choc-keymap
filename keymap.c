@@ -12,7 +12,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdio.h>
 #include QMK_KEYBOARD_H
 #include "transactions.h"
 
@@ -139,7 +138,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-static void led_sync_handler(uint8_t in_len, const void *in, uint8_t, void *) {
+static void led_sync_handler(uint8_t in_len, const void *in, uint8_t out_len, void *out) {
   if (in_len == sizeof(led_state))
     memcpy(&led_state, in, sizeof(led_state));
 }
@@ -195,15 +194,16 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   const bool gaming = (dl == _GAMING);
   const bool os_on = layer_state_is(_ONESHOTS) || led_state.os_down;
 
-  for (uint8_t i = led_min; i < led_max; i++) {
-    uint16_t age = UINT16_MAX;
-    if (gaming) {
+  if (gaming) {
+    for (uint8_t i = led_min; i < led_max; i++) {
+      uint16_t age = UINT16_MAX;
       for (uint8_t j = 0; j < g_last_hit_tracker.count; j++)
         if (g_last_hit_tracker.index[j] == i && g_last_hit_tracker.tick[j] < age)
           age = g_last_hit_tracker.tick[j];
+
+      if (age < FLASH_MS)
+        set_hsv(i, H_PURPLE, 255 - (uint32_t)age * 255 / FLASH_MS);
     }
-    if (age < FLASH_MS)
-      set_hsv(i, H_PURPLE, 255 - (uint32_t)age * 255 / FLASH_MS);
   }
 
   for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
@@ -224,5 +224,4 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   return false;
 }
 
-// nvim: nodiagnostics
 // vim: shiftwidth=2:

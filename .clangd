@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -D__AVR_ATmega32U4__=1
+    - -I/usr/avr/include
