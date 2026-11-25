@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├──────┼─────────────┼─────┼──────┼──────┼─────────┤
 //    │  f7  │   f8    │   f9    │   f10   │   f11   │   f12   │               │ left │    down     │ up  │ rght │ pgdn │         │
 //    ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐   ┌─────┼──────┼─────────────┼─────┼──────┼──────┼─────────┤
-//    │ rsft │         │         │         │         │         │     │   │     │      │             │     │      │  \   │ QK_LOCK │
+//    │      │         │         │         │         │         │     │   │     │      │             │     │      │  \   │ QK_LOCK │
 //    └──────┴─────────┼─────────┼─────────┼─────────┼─────────┼─────┤   ├─────┼──────┼─────────────┼─────┼──────┼──────┴─────────┘
 //                     │         │         │         │         │     │   │     │      │ TG(_GAMING) │     │      │
 //                     └─────────┴─────────┴─────────┴─────────┴─────┘   └─────┴──────┴─────────────┴─────┴──────┘
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_CALC , RM_TOGG , RM_PREV , RM_NEXT , RM_VALD , RM_VALU ,                         KC_TRNS , KC_TRNS     , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   , KC_F6   ,                         KC_TRNS , KC_TRNS     , KC_TRNS , KC_TRNS , KC_PGUP , KC_DEL ,
   KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  ,                         KC_LEFT , KC_DOWN     , KC_UP   , KC_RGHT , KC_PGDN , KC_TRNS,
-  KC_RSFT , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS , KC_TRNS , KC_BSLS , QK_LOCK,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS     , KC_TRNS , KC_TRNS , KC_BSLS , QK_LOCK,
                       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , TG(_GAMING) , KC_TRNS , KC_TRNS
 )
 };
