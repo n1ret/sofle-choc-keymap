@@ -13,7 +13,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "color.h"
+#include "color.h"
 #include "keycodes.h"
+#include "quantum.h"
 #include <stdint.h>
 #include QMK_KEYBOARD_H
 #include "transactions.h"
@@ -92,7 +94,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 
 // Custom keys processing and RGB Matrix settings
-static bool is_gaming(void) { return get_highest_layer(default_layer_state) == _GAMING; }
+static bool is_gaming(void) { return IS_LAYER_ON(_GAMING); }
 
 #define MAX_LOCKED 6
 #define MAX_HELD 12
@@ -231,7 +233,7 @@ static void paint_base(uint8_t led_min, uint8_t led_max, bool gaming) {
   }
 }
 
-static void paint_keys(uint8_t led_min, uint8_t led_max, uint8_t dl, bool gaming) {
+static void paint_keys(uint8_t led_min, uint8_t led_max, bool gaming) {
   const bool os_on = layer_state_is(_ONESHOTS) || led_state.os_down;
 
   for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
@@ -239,6 +241,8 @@ static void paint_keys(uint8_t led_min, uint8_t led_max, uint8_t dl, bool gaming
       uint8_t led;
       if (!rgb_matrix_map_row_column_to_led(row, col, &led) || led < led_min || led >= led_max)
         continue;
+
+      const uint8_t dl = get_highest_layer(default_layer_state);
       const uint16_t kc = keymap_key_to_keycode(dl, (keypos_t){.row = row, .col = col});
 
       if (is_locked(kc)) {
@@ -262,11 +266,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   if (rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_STATUS_LAYER)
     return true;
 
-  const uint8_t dl = get_highest_layer(default_layer_state);
-  const bool gaming = (dl == _GAMING);
+  const bool gaming = is_gaming();
 
   paint_base(led_min, led_max, gaming);
-  paint_keys(led_min, led_max, dl, gaming);
+  paint_keys(led_min, led_max, gaming);
   return false;
 }
 
